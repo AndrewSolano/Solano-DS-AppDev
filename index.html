@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tasks — To-Do List</title>
+
+  <!-- Google Fonts: Fraunces (headings) + Work Sans (body/UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Work+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="sheet" role="main">
+
+    <!-- ============ HEADER ============ -->
+    <header class="sheet__header">
+      <div class="sheet__heading">
+        <h1 class="sheet__title">Tasks</h1>
+        <p class="sheet__date" id="today-date"></p>
+      </div>
+      <p class="sheet__stats" id="stats-line">No tasks yet</p>
+    </header>
+
+    <!-- ============ CREATE TASK FORM ============ -->
+    <section class="sheet__section">
+      <form id="task-form" class="task-form" novalidate>
+        <input
+          type="text"
+          id="task-input"
+          class="task-form__input"
+          placeholder="Add a task…"
+          autocomplete="off"
+          maxlength="120"
+        />
+        <button type="submit" class="task-form__submit">Add</button>
+      </form>
+      <p class="task-form__error" id="task-error" role="alert" aria-live="polite"></p>
+    </section>
+
+    <div class="sheet__divider"></div>
+
+    <!-- ============ TASK LIST ============ -->
+    <section class="sheet__section sheet__section--list">
+      <ul class="task-list" id="task-list"></ul>
+
+      <p class="empty-state" id="empty-state">
+        Nothing here yet. Add your first task above.
+      </p>
+    </section>
+
+    <div class="sheet__divider"></div>
+
+    <!-- ============ FOOTER / DELETE ALL ============ -->
+    <footer class="sheet__footer">
+      <button type="button" class="delete-all-btn" id="delete-all-btn">
+        Delete all
+      </button>
+    </footer>
+
+  </main>
+
+  <!-- Toast for feedback (e.g. after deleting all) -->
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

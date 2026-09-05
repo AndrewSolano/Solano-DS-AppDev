@@ -1,0 +1,425 @@
+/* ==========================================================================
+   DESIGN TOKENS
+   ========================================================================== */
+:root {
+  /* Color */
+  --color-bg: #EDF0F2;
+  --color-surface: #FFFFFF;
+  --color-ink: #1E2A36;
+  --color-ink-muted: #5C6B7A;
+  --color-border: #DCE2E6;
+  --color-accent: #2F5D62;       /* primary actions, focus, brand */
+  --color-accent-soft: #E4EDEC;  /* accent background tint */
+  --color-success: #4C8C6B;      /* completed marker */
+  --color-danger: #B3432B;       /* delete actions */
+  --color-danger-soft: #F5E7E2;
+
+  /* Type */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Work Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Layout */
+  --sheet-width: 640px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+}
+
+/* ==========================================================================
+   RESET & BASE
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  background-image:
+    linear-gradient(var(--color-border) 1px, transparent 1px);
+  background-size: 100% 42px;
+  background-position: 0 220px;
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  display: flex;
+  justify-content: center;
+  padding: 64px 20px;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ==========================================================================
+   SHEET (the notebook page / app card)
+   ========================================================================== */
+.sheet {
+  width: 100%;
+  max-width: var(--sheet-width);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(30, 42, 54, 0.06), 0 1px 2px rgba(30, 42, 54, 0.05);
+  padding: 40px 44px 32px;
+  height: fit-content;
+}
+
+.sheet__section {
+  padding: 22px 0;
+}
+
+.sheet__divider {
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+.sheet__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.sheet__heading {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+.sheet__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 32px;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--color-ink);
+}
+
+.sheet__date {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-ink-muted);
+}
+
+.sheet__stats {
+  margin: 0;
+  font-size: 14px;
+  color: var(--color-ink-muted);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   TASK FORM (Create + Validation)
+   ========================================================================== */
+.task-form {
+  display: flex;
+  gap: 10px;
+}
+
+.task-form__input {
+  flex: 1;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.task-form__input::placeholder {
+  color: var(--color-ink-muted);
+}
+
+.task-form__input:focus {
+  background: var(--color-surface);
+  border-color: var(--color-accent);
+}
+
+.task-form__input.is-invalid {
+  border-color: var(--color-danger);
+  animation: shake 0.3s ease;
+}
+
+.task-form__submit {
+  padding: 12px 22px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  background: var(--color-accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+.task-form__submit:hover {
+  background: #274d51;
+}
+
+.task-form__submit:active {
+  transform: scale(0.98);
+}
+
+.task-form__error {
+  margin: 10px 2px 0;
+  min-height: 18px;
+  font-size: 13px;
+  color: var(--color-danger);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* ==========================================================================
+   TASK LIST (Read/View)
+   ========================================================================== */
+.sheet__section--list {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+  animation: fade-in 0.18s ease;
+}
+
+.task-item:last-child {
+  border-bottom: none;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Toggle (Update: mark as done) --- */
+.task-item__toggle {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-ink-muted);
+  background: transparent;
+  position: relative;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.task-item__toggle:hover {
+  border-color: var(--color-success);
+}
+
+.task-item.is-done .task-item__toggle {
+  border-color: var(--color-success);
+  background: var(--color-success);
+}
+
+.task-item.is-done .task-item__toggle::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 4px;
+  width: 10px;
+  height: 5px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(-45deg);
+}
+
+/* --- Task text --- */
+.task-item__text {
+  flex: 1;
+  font-size: 15px;
+  line-height: 1.4;
+  word-break: break-word;
+  color: var(--color-ink);
+}
+
+.task-item.is-done .task-item__text {
+  color: var(--color-ink-muted);
+  text-decoration: line-through;
+  text-decoration-color: var(--color-ink-muted);
+}
+
+.task-item__text {
+  cursor: text;
+  padding: 2px 4px;
+  margin: -2px -4px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease;
+}
+
+.task-item:not(.is-done) .task-item__text:hover {
+  background: var(--color-accent-soft);
+}
+
+/* --- Edit-in-place input --- */
+.task-item__edit-input {
+  flex: 1;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--color-ink);
+  background: var(--color-accent-soft);
+  border: none;
+  border-bottom: 1.5px solid var(--color-accent);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  padding: 2px 4px;
+  margin: -2px -4px;
+}
+
+.task-item__edit-input:focus {
+  outline: none;
+}
+
+.task-item.is-editing {
+  background: var(--color-accent-soft);
+  margin: 0 -16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: var(--radius-sm);
+}
+
+/* --- Delete control --- */
+.task-item__delete {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--color-ink-muted);
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  line-height: 1;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.task-item__delete:hover {
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+
+/* --- Empty state --- */
+.empty-state {
+  display: none;
+  margin: 8px 0 4px;
+  font-size: 14px;
+  color: var(--color-ink-muted);
+  text-align: center;
+  padding: 18px 0;
+}
+
+.empty-state.is-visible {
+  display: block;
+}
+
+/* ==========================================================================
+   FOOTER / DELETE ALL (Async)
+   ========================================================================== */
+.sheet__footer {
+  padding-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.delete-all-btn {
+  padding: 10px 18px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.delete-all-btn:hover {
+  background: #efd9d1;
+}
+
+.delete-all-btn:disabled {
+  opacity: 0.65;
+  cursor: progress;
+}
+
+/* ==========================================================================
+   TOAST
+   ========================================================================== */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: var(--color-ink);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 480px) {
+  body {
+    padding: 32px 12px;
+  }
+
+  .sheet {
+    padding: 28px 22px 24px;
+  }
+
+  .sheet__title {
+    font-size: 26px;
+  }
+
+  .task-form {
+    flex-direction: column;
+  }
+
+  .task-form__submit {
+    width: 100%;
+  }
+}

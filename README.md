@@ -1,7 +1,6 @@
 # To-Do List App — Prelim Examination
 
-A vanilla HTML/CSS/JavaScript to-do list app. No frameworks, no build step —
-just open `index.html` in a browser.
+A vanilla HTML/CSS/JavaScript to-do list app.
 
 ## Files
 
@@ -11,7 +10,6 @@ just open `index.html` in a browser.
 | `style.css` | All visual styling |
 | `script.js` | All app logic: state, rendering, events, Local Storage |
 
-## How it works (for your presentation)
 
 `script.js` is organized top to bottom into 5 labeled sections:
 
@@ -55,16 +53,5 @@ python3 -m http.server 8000
 # then open http://localhost:8000
 ```
 
-## Submitting via GitHub (per the exam instructions)
 
-From your existing repository:
 
-```bash
-git checkout -b Prelim-Exam
-# copy index.html, style.css, script.js, README.md into the repo
-git add .
-git commit -m "Prelim Exam: To-Do List app"
-git push -u origin Prelim-Exam
-```
-
-Then submit your repository link in the submission bin.

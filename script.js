@@ -24,7 +24,7 @@
 const STORAGE_KEY = "todo-app-tasks";
 
 const state = {
-  tasks: [], // each task: { id: string, text: string, completed: boolean, createdAt: number }
+  tasks: [],  // Start as empty list each task: { id: string, text: string, completed: boolean, createdAt: number }
 };
 
 /**
@@ -35,17 +35,17 @@ function loadTasksFromStorage() {
   const raw = localStorage.getItem(STORAGE_KEY);
 
   if (!raw) {
-    state.tasks = [];
+    state.tasks = []; //If there is nothing saved, start with an empty task list.
     return;
   }
 
   try {  // if something goes wrong
-    const parsed = JSON.parse(raw);
+    const parsed = JSON.parse(raw); //JSON.parse() converts that text into a JavaScript object/array.
     state.tasks = Array.isArray(parsed) ? parsed : [];
   } catch (error) {
     // If storage ever contains corrupted data, fail safely instead of crashing.
     console.error("Could not parse saved tasks, starting fresh.", error);
-    state.tasks = [];
+    state.tasks = []; 
   }
 }
 
@@ -53,8 +53,8 @@ function loadTasksFromStorage() {
  * Writes the current state.tasks to Local Storage.
  * Called after every mutation (add / toggle / delete / delete all).
  */
-function saveTasksToStorage() {  //javascript into JSON string to local storage
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks));
+function saveTasksToStorage() {  //converts JavaScript data into a JSON string
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.tasks)); 
 }
 
 /* ==========================================================================

@@ -89,7 +89,7 @@ button {
 /* ==========================================================================
    HEADER
    ========================================================================== */
-.sheet__header {
+.sheet__header {            /* Tasks container */
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -98,13 +98,13 @@ button {
   flex-wrap: wrap;
 }
 
-.sheet__heading {
+.sheet__heading {  /* Date container */
   display: flex;
   align-items: baseline;
   gap: 14px;
 }
 
-.sheet__title {
+.sheet__title { /* Tasks */
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 32px;
@@ -113,13 +113,13 @@ button {
   color: var(--color-ink);
 }
 
-.sheet__date {
+.sheet__date { /* date */
   margin: 0;
   font-size: 14px;
   color: var(--color-ink-muted);
 }
 
-.sheet__stats {
+.sheet__stats { /* no tasks yet */
   margin: 0;
   font-size: 14px;
   color: var(--color-ink-muted);

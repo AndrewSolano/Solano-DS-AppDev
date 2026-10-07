@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About me</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 360px; margin: 3rem auto; padding: 0 1rem; }
+    dt { font-weight: 600; margin-top: 1rem; }
+    dd { margin: .25rem 0 0; }
+    button { padding: .6rem 1rem; font-size: 1rem; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>About me</h1>
+  <p id="error" style="color:#b00020"></p>
+  <dl>
+    <dt>Username</dt><dd id="username">...</dd>
+    <dt>Email</dt><dd id="email">...</dd>
+    <dt>Bio</dt><dd id="bio">...</dd>
+  </dl>
+  <p><a href="/dashboard.html">Back to dashboard</a></p>
+  <button id="logout">Log out</button>
+
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "/index.html";
+
+    async function loadAboutMe() {
+      const res = await fetch("/api/users/about-me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) {
+        localStorage.removeItem("token"); // expired or invalid
+        window.location.href = "/index.html";
+        return;
+      }
+
+      const user = await res.json();
+      // textContent (not innerHTML) so a malicious bio can't inject scripts (XSS)
+      document.getElementById("username").textContent = user.username;
+      document.getElementById("email").textContent = user.email;
+      document.getElementById("bio").textContent = user.bio || "No bio yet.";
+    }
+
+    document.getElementById("logout").addEventListener("click", () => {
+      localStorage.removeItem("token");
+      window.location.href = "/index.html";
+    });
+
+    loadAboutMe();
+  </script>
+</body>
+</html>

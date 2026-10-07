@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>All users</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 560px; margin: 3rem auto; padding: 0 1rem; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+    th, td { text-align: left; padding: .5rem; border-bottom: 1px solid #ddd; }
+    button { padding: .6rem 1rem; font-size: 1rem; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Registered users</h1>
+  <table>
+    <thead><tr><th>Username</th><th>Email</th><th>Bio</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <p><a href="/dashboard.html">Back to dashboard</a></p>
+  <button id="logout">Log out</button>
+
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) window.location.href = "/index.html";
+
+    async function loadUsers() {
+      const res = await fetch("/api/users", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) {
+        localStorage.removeItem("token");
+        window.location.href = "/index.html";
+        return;
+      }
+
+      const users = await res.json();
+      const tbody = document.getElementById("rows");
+      for (const u of users) {
+        const tr = document.createElement("tr");
+        for (const value of [u.username, u.email, u.bio || ""]) {
+          const td = document.createElement("td");
+          td.textContent = value; // textContent keeps user-written text from running as HTML
+          tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+      }
+    }
+
+    document.getElementById("logout").addEventListener("click", () => {
+      localStorage.removeItem("token");
+      window.location.href = "/index.html";
+    });
+
+    loadUsers();
+  </script>
+</body>
+</html>

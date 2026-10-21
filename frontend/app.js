@@ -30,13 +30,13 @@ async function call(base, path, method = 'GET', body) {
 }
 
 // displays a list of blog posts.
-async function list(path, title) {                      
+async function list(path, title) {
   const { ok, data } = await call(API, path);      //request posts from the Blog API and stores the result's ok and data
   if (!ok) return say(data.error);
-  $('app').innerHTML = `<h2>${title}</h2>` + (data.map(p => ` //get HTML element with the ID app
+  $('app').innerHTML = `<h2>${title}</h2>` + (data.map(p => ` 
     <div class="post">
-      <h3><a href="#/post/${p.id}">${esc(p.title)}</a></h3> //displays the post title
-      <p>${esc(p.content.slice(0, 120))}</p>  //displays the first 120 characters
+      <h3><a href="#/post/${p.id}">${esc(p.title)}</a></h3> <!--Title of the post-->
+      <p>${esc(p.content.slice(0, 120))}</p> <!--Content of the first 120 characters-->
       <small>${by(p)}</small>
     </div>`).join('') || 'No posts yet.');
 }
@@ -47,9 +47,9 @@ async function post(id) {   //displays one blog post, using its id
   const { ok, data: p } = await call(API, '/api/posts/' + id); //requests the specific post
   if (!ok) return say(p.error);
   const u = user(); //get the logged-in user's information from the access token
-  $('app').innerHTML = `<h2>${esc(p.title)}</h2><small>${by(p)}</small> //displays the post's title and author information
-    <p class="body">${esc(p.content)}</p> //displays the content of the selected blog
-    ${u && (u.id === p.user_id || u.role === 'admin') ? `<a class="btn" href="#/edit/${p.id}">Edit</a>` : ''} //checks whether owner or an admin
+  $('app').innerHTML = `<h2>${esc(p.title)}</h2><small>${by(p)}</small> <!--displays the post's title and author information-->
+    <p class="body">${esc(p.content)}</p> <!--displays the content of the selected blog-->
+    ${u && (u.id === p.user_id || u.role === 'admin') ? `<a class="btn" href="#/edit/${p.id}">Edit</a>` : ''} <!--checks whether owner or an admin-->
     ${u && u.role === 'admin' ? `<button onclick="del(${p.id})">Delete</button>` : ''}`;
 }
 
@@ -59,16 +59,16 @@ async function del(id) {                                 // DELETE /api/posts/:i
   ok ? location.hash = '#/' : say(data.error);
 }
 
-async function editor(id) {   //displays a form for creating a new blog post or editing an existing one                             
+async function editor(id) {   //displays a form for creating a new blog post or editing an existing one
   let p = { title: '', content: '' };
   if (id) { //checks whether an id was provided, wants to edit an existing blog post.
     const r = await call(API, '/api/posts/' + id); //requests the existing blog post from the Blog API using its ID
     if (!r.ok) return say(r.data.error);
     p = r.data;
   }
-  $('app').innerHTML = `<h2>${id ? 'Edit' : 'New'} Blog</h2><form id="form"> //creates a form Edit Blog or New Blog 
-    <label>Title <input id="title" value="${esc(p.title)}" required></label> //title input field
-    <label>Content <textarea id="content" rows="8" required>${esc(p.content)}</textarea></label> //text area for the blog content
+  $('app').innerHTML = `<h2>${id ? 'Edit' : 'New'} Blog</h2><form id="form"> <!--creates a form Edit Blog or New Blog -->
+    <label>Title <input id="title" value="${esc(p.title)}" required></label> <!--title input field-->
+    <label>Content <textarea id="content" rows="8" required>${esc(p.content)}</textarea></label> <!--text area for the blog content-->
     <button>Save</button></form>`;
   $('form').onsubmit = async e => {
     e.preventDefault();
